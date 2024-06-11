@@ -1,9 +1,21 @@
-import { Router, Request, Response } from "express";
+import { Router } from "express";
+import { chatController } from "./useCases/Chat";
 
 const router = Router();
 
-router.get("/api/v1", (req: Request, res: Response) => {
-  return res.send("Hello World!");
+// Chat
+router.get("/api/v1/chat", (req, res) => {
+  return chatController.handler(req, res);
+});
+
+// Print all router route endpoints
+console.log("Routes:");
+router.stack.forEach((layer) => {
+  if (layer.route) {
+    const methods = Object.keys(layer.route.patch).join(", ");
+    const path = layer.route.path;
+    console.log(`  ${methods} ${path}`);
+  }
 });
 
 export { router };
