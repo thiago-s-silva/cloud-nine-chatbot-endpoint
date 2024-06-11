@@ -4,7 +4,7 @@ import { chatController } from "./useCases/Chat";
 const router = Router();
 
 // Chat
-router.get("/api/v1/chat", (req, res) => {
+router.post("/api/v1/chat", (req, res) => {
   return chatController.handler(req, res);
 });
 

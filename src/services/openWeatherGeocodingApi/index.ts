@@ -34,23 +34,25 @@ export default class OpenWeatherGeocodingAPI {
         // Parse the params to an encoded URI for query params
         const encodedParams = this.utils.encodeQueryParams(params);
 
+        const endpoint = `${this.apiUrl}?${encodedParams}&appid=${this.apiKey}`;
+
         // Fetch data from API
-        const response = await fetch(`${this.apiUrl}?${encodedParams}&appid=${this.apiKey}`);
+        const response = await fetch(endpoint);
 
         // Check the response status code
         const OKAY_STATUS_CODES = 200;
         if (response.status !== OKAY_STATUS_CODES) {
-          reject(new Error(`Failed to fetch geocoding data. Status code: ${response.status}`));
+          reject(new Error(`\n[OpenWeather Geocoding API] Failed to fetch geocoding data. Status code: ${response.status}`));
         }
 
         // Parse the response data
         const data: IOpenWeatherGeocodingApiResponseDTO = await response.json();
-
-        console.debug("[OpenWeather Geocoding API]: Successfully fetched geocoding data.");
+        console.debug(`\n[OpenWeather Geocoding API] Successfully fetched geocoding data`);
 
         // Resolve the promise with the parsed data
         resolve(data);
       } catch (error) {
+        console.debug(`\n[OpenWeather Geocoding API] Failed fetched geocoding data`);
         reject(error);
       }
     });

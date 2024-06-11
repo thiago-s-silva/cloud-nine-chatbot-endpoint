@@ -35,17 +35,19 @@ export class OpenWeatherAPI {
         const OKAY_STATUS_CODES = 200;
         if (response.status !== OKAY_STATUS_CODES) {
           console.debug(
-            `[OpenWeather API]: Failed to fetch weather data.\nRequest: ${endpointRequest}\nResponse: ${JSON.stringify(response, null, 2)}`
+            `[Open Weather API] Failed to fetch weather data.\nRequest: ${endpointRequest}\nResponse: ${JSON.stringify(response, null, 2)}`
           );
           reject(new Error(`Failed to fetch weather data. Status code: ${response.status}`));
         }
 
         // Parse the response data
         const data: IOpenWeatherResponseDTO = await response.json();
+        console.debug(`[Open Weather API] Successfull request: ${endpointRequest}`);
 
         // Resolve the promise with the parsed data
         resolve(data);
       } catch (error) {
+        console.error(`[Open Weather API] Failed request: ${error}`);
         reject(error);
       }
     });
