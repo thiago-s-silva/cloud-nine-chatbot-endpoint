@@ -9,7 +9,12 @@ export class ChatController {
   }
 
   async handler(req: Request, res: Response): Promise<Response> {
-    console.log("useCase instance:", this.chatUseCase.execute !== undefined);
-    return res.status(200).json({ message: "alou" });
+    try {
+      const { data, statusCode } = await this.chatUseCase.execute();
+      return res.status(statusCode).json(data);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: "Internal server error" });
+    }
   }
 }
